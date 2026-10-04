@@ -1,0 +1,9 @@
+test-output/
+preview.html
+preview.cjs
+ui-test.cjs
+使用说明.md
+酒馆助手脚本-*.json
+node_modules/
+*.log
+PROJECT_STATUS.md

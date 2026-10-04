@@ -1,0 +1,11 @@
+{
+  "name": "tavern-prompt-groups",
+  "version": "5.1.0",
+  "private": true,
+  "description": "SillyTavern 酒馆助手预设词条分组管理器",
+  "scripts": {
+    "build": "node build.cjs",
+    "test": "node --test --test-isolation=none core.test.cjs loader.test.cjs",
+    "check": "node --check prompt-groups.js && node --check loader.js && node --input-type=module --check < prompt-groups.module.js"
+  }
+}

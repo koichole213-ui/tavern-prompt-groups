@@ -1,0 +1,14 @@
+{
+  "type": "script",
+  "enabled": true,
+  "name": "分组管理器",
+  "id": "27d7034b-0f1e-4b68-b4a1-e361eaf3791b",
+  "button": {
+    "enabled": true,
+    "buttons": [
+      { "name": "分组管理", "visible": true },
+      { "name": "切换分组", "visible": true }
+    ]
+  },
+  "data": {}
+}

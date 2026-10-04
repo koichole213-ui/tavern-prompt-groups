@@ -1,0 +1,41 @@
+name: Check and release
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm run build
+      - run: npm run check
+      - run: npm test
+      - name: Confirm generated files are committed
+        run: git diff --exit-code
+      - name: Confirm tag matches package version
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: node -e 'if(process.env.RELEASE_TAG !== "v" + require("./package.json").version) process.exit(1)'
+  release:
+    needs: check
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish JSON downloads
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$RELEASE_TAG" prompt-groups.json prompt-groups.standalone.json --verify-tag --title "分组管理器 $RELEASE_TAG" --notes "更新内容见 CHANGELOG.md。在线版导入一次后可修改 VERSION 加载已发布版本；离线版无需下载远程代码。"

@@ -1,0 +1,21 @@
+const fs = require('node:fs');
+const path = require('node:path');
+const { version } = require('./package.json');
+if (!/^\d+\.\d+\.\d+$/.test(version)) throw new Error('版本号须为 x.y.z');
+const read = name => fs.readFileSync(path.join(__dirname, name), 'utf8');
+const write = (name, content) => fs.writeFileSync(path.join(__dirname, name), content);
+let source = read('prompt-groups.js');
+source = source.replace(/^\/\/ 预设词条分组管理器 v[^\n]+/, `// 预设词条分组管理器 v${version}`)
+  .replace(/const VERSION = '[^']+';/, `const VERSION = '${version}';`);
+write('prompt-groups.js', source);
+const body = source.slice(source.indexOf('(() => {') + '(() => {'.length).replace(/\}\)\(\);\s*$/, '');
+write('prompt-groups.module.js', `// 预设词条分组管理器 v${version}\nexport const version = '${version}';\nexport default function startPromptGroups() {${body}}\n`);
+const loader = read('loader.js').replace(/const VERSION = '[^']+';/, `const VERSION = '${version}';`);
+write('loader.js', loader);
+const template = JSON.parse(read('script-template.json'));
+const pack = (content, description) => JSON.stringify({ ...template, version, content, info: `分组管理器 v${version}：${description}` }, null, 2) + '\n';
+const online = pack(loader, '修改 VERSION 后保存并重新启用，加载对应的已发布版本。分组记录继续保存在预设里。');
+write('prompt-groups.json', online);
+write(`酒馆助手脚本-分组管理器-在线版-v${version}.json`, online);
+write('prompt-groups.standalone.json', pack(source, '离线完整代码版；无需下载远程代码，更新需重新导入。'));
+console.log(`已生成 v${version} 在线加载器、版本模块和离线 JSON`);
