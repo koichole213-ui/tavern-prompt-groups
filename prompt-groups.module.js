@@ -1,8 +1,8 @@
-// 预设词条分组管理器 v5.1.0
-export const version = '5.1.0';
+// 预设词条分组管理器 v5.1.1
+export const version = '5.1.1';
 export default function startPromptGroups() {
   'use strict';
-  const VERSION = '5.1.0';
+  const VERSION = '5.1.1';
   const CONFIG_KEY = 'prompt_groups';
   const ROOT_ID = 'pgm-root';
   let panel = null;

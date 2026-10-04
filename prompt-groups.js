@@ -1,8 +1,8 @@
-// 预设词条分组管理器 v5.1.0
+// 预设词条分组管理器 v5.1.1
 // 分组名单永久保存到对应预设；词条开关仅在当前预设生效。
 (() => {
   'use strict';
-  const VERSION = '5.1.0';
+  const VERSION = '5.1.1';
   const CONFIG_KEY = 'prompt_groups';
   const ROOT_ID = 'pgm-root';
   let panel = null;

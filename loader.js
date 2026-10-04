@@ -1,6 +1,6 @@
 // 更新时只修改下面的版本号，保存并重新启用脚本。
 // 填写已经发布的版本，例如 5.1.0；已有分组仍保存在原预设里。
-const VERSION = '5.1.0';
+const VERSION = '5.1.1';
 
 (() => {
   const host = window.parent && window.parent !== window ? window.parent : window;
